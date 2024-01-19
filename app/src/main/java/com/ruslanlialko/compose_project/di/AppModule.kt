@@ -21,12 +21,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGitHubApi(): ExampleApi {
+    fun provideExampleApi(): ExampleApi {
 
         val interceptor = HttpLoggingInterceptor()
         interceptor.setLevel(if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE)
         val client: OkHttpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
 
+        // TODO change base url and move it some different place
         return Retrofit.Builder()
             .baseUrl("https://api.github.com")
             .client(client)
@@ -37,7 +38,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGitHubRepository(exampleApi: ExampleApi): ExampleRepository {
+    fun provideExampleRepository(exampleApi: ExampleApi): ExampleRepository {
         return ExampleRepositoryImpl(exampleApi)
     }
 
